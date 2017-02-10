@@ -5,6 +5,7 @@ import Html exposing (Html)
 import Html.Events exposing (onClick)
 import Task
 import Array exposing (Array)
+import Random
 
 -- Model
 
@@ -25,8 +26,9 @@ type alias Model = {
 
 
 init : ( Model, Cmd Msg )
-init =
-  (Model 0
+init = update ChooseRandomCard initStatic
+initStatic =
+  Model 0
     ( Array.fromList [ (Card "relationship" "to break up" "to end a romantic relationship")
       , (Card "relationship" "to drift apart" "to become less close to someone")
       , (Card "relationship" "to break up" "to end a romantic relationship")
@@ -56,8 +58,7 @@ init =
       , (Card "relationship" "to be well matched" "to be similar to")
       , (Card "relationship" "to work at a relationship" "to try to maintain a positive relationship with someone")
       ]
-    ), Cmd.none
-  )
+    )
 
 
 
@@ -65,7 +66,7 @@ init =
 
 
 type Msg
-    = CardKnown | CardNotKnown
+    = CardKnown | CardNotKnown | ChooseRandomCard | SetCard Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -73,6 +74,8 @@ update msg model =
   case msg of
     CardKnown -> ({ model | activeCard = model.activeCard+ 1}, Cmd.none)
     CardNotKnown -> ({ model | activeCard = model.activeCard + 1}, Cmd.none)
+    ChooseRandomCard -> (model, Random.generate SetCard (Random.int 0 (Array.length model.list)))
+    SetCard id -> ({ model | activeCard = id}, Cmd.none)
 
 
 -- Subscriptions
@@ -100,8 +103,8 @@ view model = viewApp model
 
 viewApp model = Html.div [] [
   viewActiveCard model,
-  Html.button [ onClick CardKnown ] [ Html.text "✅" ],
-  Html.button [ onClick CardNotKnown ] [ Html.text "❗️" ]
+  Html.button [ onClick ChooseRandomCard ] [ Html.text "✅" ],
+  Html.button [ onClick CardKnown ] [ Html.text "❗️" ]
   ]
 
 viewActiveCard model

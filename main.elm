@@ -5,6 +5,7 @@ import Html exposing (Html)
 import Html.Events exposing (onClick)
 import Task
 import Array exposing (Array)
+import Dict exposing (Dict)     
 import Random
 
 -- Model
@@ -20,10 +21,17 @@ type alias Card =
 type alias VocabList = Array Card
 
 type alias Model = {
-    activeCard: Int,
-    list: VocabList
+    activeCard: Int
+   , list: VocabList
+   , stats: Stats
   }
 
+type alias Stats = Dict Int Stat
+
+type alias Stat = {
+   known: Int
+  , unknown: Int
+}
 
 init : ( Model, Cmd Msg )
 init = update ChooseRandomCard initStatic
@@ -58,7 +66,7 @@ initStatic =
       , (Card "relationship" "to be well matched" "to be similar to")
       , (Card "relationship" "to work at a relationship" "to try to maintain a positive relationship with someone")
       ]
-    )
+    ) (Dict.empty)
 
 
 
@@ -68,12 +76,27 @@ initStatic =
 type Msg
     = CardKnown | CardNotKnown | ChooseRandomCard | SetCard Int
 
+updateStats : Int -> Bool -> Stats -> Stats
+updateStats id known stats =
+  let
+      id2 = Debug.log "id" id
+      oldStats = Debug.log "stats" stats
+
+      oldStat =
+        Maybe.withDefault (Stat 0 0) (Dict.get id stats)
+
+      newStat =
+        Debug.log "newStat" (case known of
+          True -> {oldStat | known = oldStat.known + 1}
+          False -> {oldStat | unknown = oldStat.unknown + 1})
+
+  in (Debug.log "updateStats" (Dict.insert id newStat stats))
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
   case msg of
-    CardKnown -> ({ model | activeCard = model.activeCard+ 1}, Cmd.none)
-    CardNotKnown -> ({ model | activeCard = model.activeCard + 1}, Cmd.none)
+    CardKnown -> (update ChooseRandomCard { model | stats = updateStats model.activeCard True model.stats})
+    CardNotKnown -> (update ChooseRandomCard { model | stats = updateStats model.activeCard False model.stats})
     ChooseRandomCard -> (model, Random.generate SetCard (Random.int 0 (Array.length model.list)))
     SetCard id -> ({ model | activeCard = id}, Cmd.none)
 
@@ -103,12 +126,24 @@ view model = viewApp model
 
 viewApp model = Html.div [] [
   viewActiveCard model,
-  Html.button [ onClick ChooseRandomCard ] [ Html.text "✅" ],
-  Html.button [ onClick CardKnown ] [ Html.text "❗️" ]
+  Html.button [ onClick CardKnown ] [ Html.text "✅" ],
+  Html.button [ onClick CardNotKnown ] [ Html.text "❗️" ],
+  viewStats model
   ]
 
 viewActiveCard model
   = viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
+
+viewStats : Model -> Html Msg
+viewStats model
+  = Html.div [] 
+  (Dict.values (Dict.map viewStat model.stats))
+
+viewStat : Int -> Stat -> Html Msg
+viewStat id stat = Html.div [] [
+  Html.text "Known: ", Html.text (toString stat.known)
+  , Html.text "Unknown: ", Html.text (toString stat.unknown)
+  ]
 
 
 main =

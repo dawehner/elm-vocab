@@ -61,7 +61,7 @@ update msg model =
             ( { model | activeCard = id }, Cmd.none )
 
         FetchCards -> (model, Http.send FetchCardsSucceed getCards)
-        FetchCardsSucceed (Ok vocabs) -> ({ model | list = vocabs }, Cmd.none)
+        FetchCardsSucceed (Ok vocabs) -> (update ChooseRandomCard ({ model | list = vocabs }))
         FetchCardsSucceed (Err _) -> (model, Cmd.none)
         -- @todo Figure out some debug capablity.
         FetchFail _ -> (model, Cmd.none)

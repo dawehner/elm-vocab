@@ -13,4 +13,4 @@ init =
 
 
 initStatic =
-    (Model 0 (Array.fromList []) Dict.empty)
+    (Model -1 (Array.fromList []) Dict.empty)

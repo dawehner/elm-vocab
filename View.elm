@@ -34,7 +34,8 @@ viewApp model =
 
 
 viewActiveCard model =
-    viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
+    if model.activeCard == -1 then text "no cards loaded yet"
+       else viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
 
 
 viewStats : Model -> Html Msg

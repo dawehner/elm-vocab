@@ -43,24 +43,30 @@ viewActiveCard model =
 
 viewStats : Model -> Html Msg
 viewStats model =
-    table []
-        [ thead []
-            [ tr []
-                [ th [] [ text "ID" ]
-                , th [] [ text "Known" ]
-                , th [] [ text "Unknown" ]
+  let viewSingleStat = viewStat model.list
+
+  in
+    div []
+        [ h2 [] [ text "Stats" ]
+        , table []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Card" ]
+                    , th [] [ text "Known" ]
+                    , th [] [ text "Unknown" ]
+                    ]
                 ]
+            , (tbody []
+                (Dict.values (Dict.map (viewStat model.list) model.stats))
+              )
             ]
-        , (tbody []
-            (Dict.values (Dict.map viewStat model.stats))
-          )
         ]
 
-
-viewStat : Int -> Stat -> Html Msg
-viewStat id stat =
-    tr []
-        [ td [] [ text (toString (id + 1)) ]
-        , td [] [ text (toString stat.known) ]
-        , td [] [ text (toString stat.unknown) ]
-        ]
+viewStat cards id stat = 
+    case (Array.get id cards) of
+      Nothing -> tr [] [Html.text "Card not found"]
+      Just card -> (tr []
+            [ td [] [ text card.front ]
+            , td [] [ text (toString stat.known) ]
+            , td [] [ text (toString stat.unknown) ]
+            ])

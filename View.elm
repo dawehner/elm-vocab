@@ -4,9 +4,9 @@ import Html exposing (..)
 import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
-
 import Types exposing (..)
 import Update exposing (Msg, Msg(..))
+
 
 viewCard : Card -> Html Msg
 viewCard card =
@@ -34,8 +34,10 @@ viewApp model =
 
 
 viewActiveCard model =
-    if model.activeCard == -1 then text "no cards loaded yet"
-       else viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
+    if model.activeCard == -1 then
+        h1 "no cards loaded yet"
+    else
+        viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
 
 
 viewStats : Model -> Html Msg

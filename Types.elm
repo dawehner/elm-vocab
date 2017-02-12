@@ -3,7 +3,9 @@ module Types exposing (..)
 import Array exposing (Array)
 import Dict exposing (Dict)
 
+
 -- Model
+
 
 type alias Model =
     { activeCard : Int
@@ -11,14 +13,16 @@ type alias Model =
     , stats : Stats
     }
 
+
 type alias Card =
     { category : String
     , front : String
     , back : String
     }
 
-type alias CardList = Array Card
 
+type alias CardList =
+    Array Card
 
 
 type alias Stats =
@@ -29,4 +33,3 @@ type alias Stat =
     { known : Int
     , unknown : Int
     }
-

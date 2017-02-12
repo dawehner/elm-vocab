@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
+import Table
 import Types exposing (..)
 import Update exposing (Msg, Msg(..))
 
@@ -35,22 +36,31 @@ viewApp model =
 
 viewActiveCard model =
     if model.activeCard == -1 then
-        h1 "no cards loaded yet"
+        (h1 [] [ text "no cards loaded yet" ])
     else
         viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
 
 
 viewStats : Model -> Html Msg
 viewStats model =
-    div []
-        (Dict.values (Dict.map viewStat model.stats))
+    table []
+        [ thead []
+            [ tr []
+                [ th [] [ text "ID" ]
+                , th [] [ text "Known" ]
+                , th [] [ text "Unknown" ]
+                ]
+            ]
+        , (tbody []
+            (Dict.values (Dict.map viewStat model.stats))
+          )
+        ]
 
 
 viewStat : Int -> Stat -> Html Msg
 viewStat id stat =
-    div []
-        [ text "Known: "
-        , text (toString stat.known)
-        , text "Unknown: "
-        , text (toString stat.unknown)
+    tr []
+        [ td [] [ text (toString (id + 1)) ]
+        , td [] [ text (toString stat.known) ]
+        , td [] [ text (toString stat.unknown) ]
         ]

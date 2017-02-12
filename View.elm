@@ -16,7 +16,7 @@ viewCard card =
         ]
 
 
-viewVocabList model =
+viewCardList model =
     div [] (Array.toList (Array.map viewCard model))
 
 

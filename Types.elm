@@ -5,22 +5,20 @@ import Dict exposing (Dict)
 
 -- Model
 
+type alias Model =
+    { activeCard : Int
+    , list : CardList
+    , stats : Stats
+    }
+
 type alias Card =
     { category : String
     , front : String
     , back : String
     }
 
+type alias CardList = Array Card
 
-type alias VocabList =
-    Array Card
-
-
-type alias Model =
-    { activeCard : Int
-    , list : VocabList
-    , stats : Stats
-    }
 
 
 type alias Stats =

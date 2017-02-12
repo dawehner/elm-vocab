@@ -4,15 +4,21 @@ import Debug
 import Dict exposing (Dict)
 import Random
 import Array exposing (Array)
+import Task exposing (perform)
+import Http
 
 import Types exposing (..)
+import TypesHttp exposing (..)
 
 type Msg
     = CardKnown
     | CardNotKnown
     | ChooseRandomCard
     | SetCard Int
-
+    -- Fetch vocabs
+    | FetchCards        
+    | FetchCardsSucceed (Result Http.Error CardList)
+    | FetchFail Http.Error
 
 updateStats : Int -> Bool -> Stats -> Stats
 updateStats id known stats =
@@ -54,3 +60,8 @@ update msg model =
         SetCard id ->
             ( { model | activeCard = id }, Cmd.none )
 
+        FetchCards -> (model, Http.send FetchCardsSucceed getCards)
+        FetchCardsSucceed (Ok vocabs) -> ({ model | list = vocabs }, Cmd.none)
+        FetchCardsSucceed (Err _) -> (model, Cmd.none)
+        -- @todo Figure out some debug capablity.
+        FetchFail _ -> (model, Cmd.none)

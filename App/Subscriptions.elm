@@ -1,4 +1,4 @@
-module Subscriptions exposing (..)
+module App.Subscriptions exposing (..)
 
 import App.Model exposing (Model, Msg)
 

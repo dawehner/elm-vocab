@@ -3,7 +3,7 @@ module Main exposing (..)
 import Html exposing (Html)
 import Update exposing (update, init)
 import View exposing (view)
-import Subscriptions exposing (subscriptions)
+import App.Subscriptions exposing (subscriptions)
 import RouteUrl
 import Router exposing (..)
 

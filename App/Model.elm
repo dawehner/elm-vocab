@@ -2,7 +2,7 @@ module App.Model exposing (Msg(..), Model)
 
 import Http
 import Types exposing (..)
-import PageType exposing (Page)
+import App.PageType exposing (Page)
 
 type Msg
     = CardKnown

@@ -8,7 +8,7 @@ import Task exposing (perform)
 import Http
 import Types exposing (..)
 import TypesHttp exposing (..)
-import PageType exposing (..)
+import App.PageType exposing (..)
 import App.Model exposing (..)
 
 

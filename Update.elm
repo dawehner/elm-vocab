@@ -8,6 +8,7 @@ import Task exposing (perform)
 import Http
 import Types exposing (..)
 import TypesHttp exposing (..)
+import PageType exposing (..)
 
 
 type Msg
@@ -19,6 +20,7 @@ type Msg
     | FetchCards
     | FetchCardsSucceed (Result Http.Error CardList)
     | FetchFail Http.Error
+    | SetActivePage Page
 
 
 updateStats : Int -> Bool -> Stats -> Stats
@@ -69,6 +71,9 @@ update msg model =
 
         FetchCardsSucceed (Err _) ->
             ( model, Cmd.none )
+
+        SetActivePage page ->
+            ( { model | activePage = page }, Cmd.none )
 
         -- @todo Figure out some debug capablity.
         FetchFail _ ->

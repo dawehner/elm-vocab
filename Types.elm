@@ -2,6 +2,7 @@ module Types exposing (..)
 
 import Array exposing (Array)
 import Dict exposing (Dict)
+import PageType exposing (Page)
 
 
 -- Model
@@ -11,6 +12,7 @@ type alias Model =
     { activeCard : Int
     , list : CardList
     , stats : Stats
+    , activePage : Page
     }
 
 

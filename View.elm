@@ -4,13 +4,11 @@ import Html exposing (..)
 import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
-import Table
 import Types exposing (..)
 import Update exposing (Msg, Msg(..))
 
 
 viewCard : Card -> Html Msg
-
 viewCard card =
     div []
         [ h1 [] [ text card.front ]

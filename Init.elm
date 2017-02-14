@@ -5,6 +5,7 @@ import Dict exposing (Dict)
 import Types exposing (..)
 import Update exposing (update)
 import Update exposing (update, Msg(..))
+import PageType exposing (Page(..))
 
 
 init : ( Model, Cmd Msg )
@@ -12,5 +13,6 @@ init =
     (update FetchCards initStatic)
 
 
+initStatic : Model
 initStatic =
-    (Model -1 (Array.fromList []) Dict.empty)
+    (Model -1 (Array.fromList []) Dict.empty MainPage)

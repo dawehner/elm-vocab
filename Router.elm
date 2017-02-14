@@ -2,8 +2,7 @@ module Router exposing (delta2url, location2messages)
 
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import PageType exposing (..)
-import Types exposing (Model)
-import Update exposing (..)
+import App.Model exposing (Model, Msg(..))
 import UrlParser exposing (..)
 import Navigation exposing (Location)
 

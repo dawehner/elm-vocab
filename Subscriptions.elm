@@ -1,8 +1,6 @@
 module Subscriptions exposing (..)
 
-import Types exposing (Model)
-import Update exposing (Msg)
-
+import App.Model exposing (Model, Msg)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

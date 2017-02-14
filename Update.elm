@@ -1,4 +1,4 @@
-module Update exposing (update, init, Msg(..))
+module Update exposing (update, init)
 
 import Debug
 import Dict exposing (Dict)
@@ -9,18 +9,8 @@ import Http
 import Types exposing (..)
 import TypesHttp exposing (..)
 import PageType exposing (..)
+import App.Model exposing (..)
 
-
-type Msg
-    = CardKnown
-    | CardNotKnown
-    | ChooseRandomCard
-    | SetCard Int
-      -- Fetch vocabs
-    | FetchCards
-    | FetchCardsSucceed (Result Http.Error CardList)
-    | FetchFail Http.Error
-    | SetActivePage Page
 
 init : ( Model, Cmd Msg )
 init =

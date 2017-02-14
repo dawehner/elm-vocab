@@ -5,7 +5,7 @@ import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
 import Types exposing (..)
-import Update exposing (Msg, Msg(..))
+import App.Model exposing (Model, Msg, Msg(..))
 
 
 viewCard : Card -> Html Msg

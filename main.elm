@@ -5,7 +5,7 @@ import Update exposing (update, init)
 import View exposing (view)
 import App.Subscriptions exposing (subscriptions)
 import RouteUrl
-import Router exposing (..)
+import App.Router exposing (..)
 
 
 main =

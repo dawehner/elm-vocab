@@ -1,4 +1,4 @@
-module Router exposing (delta2url, location2messages)
+module App.Router exposing (delta2url, location2messages)
 
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import App.PageType exposing (..)

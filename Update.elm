@@ -1,4 +1,4 @@
-module Update exposing (..)
+module Update exposing (update, init, Msg(..))
 
 import Debug
 import Dict exposing (Dict)
@@ -22,6 +22,13 @@ type Msg
     | FetchFail Http.Error
     | SetActivePage Page
 
+init : ( Model, Cmd Msg )
+init =
+    (update FetchCards initStatic)
+
+initStatic : Model
+initStatic =
+    (Model -1 (Array.fromList []) Dict.empty MainPage)
 
 updateStats : Int -> Bool -> Stats -> Stats
 updateStats id known stats =

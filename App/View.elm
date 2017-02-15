@@ -1,10 +1,10 @@
-module View exposing (..)
+module App.View exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
-import Types exposing (..)
+import App.Types exposing (..)
 import App.Model exposing (Model, Msg, Msg(..))
 
 

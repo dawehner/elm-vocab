@@ -1,8 +1,9 @@
 module App.Model exposing (Msg(..), Model)
 
 import Http
-import Types exposing (..)
+import App.Types exposing (..)
 import App.PageType exposing (Page)
+
 
 type Msg
     = CardKnown
@@ -14,6 +15,7 @@ type Msg
     | FetchCardsSucceed (Result Http.Error CardList)
     | FetchFail Http.Error
     | SetActivePage Page
+
 
 type alias Model =
     { activeCard : Int

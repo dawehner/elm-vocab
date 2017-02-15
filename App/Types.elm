@@ -1,8 +1,9 @@
-module Types exposing (..)
+module App.Types exposing (..)
 
 import Array exposing (Array)
 import Dict exposing (Dict)
 import App.PageType exposing (Page)
+
 
 type alias Card =
     { category : String

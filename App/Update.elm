@@ -1,4 +1,4 @@
-module Update exposing (update, init)
+module App.Update exposing (update, init)
 
 import Debug
 import Dict exposing (Dict)
@@ -6,8 +6,8 @@ import Random
 import Array exposing (Array)
 import Task exposing (perform)
 import Http
-import Types exposing (..)
-import TypesHttp exposing (..)
+import App.Types exposing (..)
+import App.TypesHttp exposing (..)
 import App.PageType exposing (..)
 import App.Model exposing (..)
 
@@ -16,9 +16,11 @@ init : ( Model, Cmd Msg )
 init =
     (update FetchCards initStatic)
 
+
 initStatic : Model
 initStatic =
     (Model -1 (Array.fromList []) Dict.empty MainPage)
+
 
 updateStats : Int -> Bool -> Stats -> Stats
 updateStats id known stats =

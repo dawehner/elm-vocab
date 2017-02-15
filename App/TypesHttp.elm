@@ -1,6 +1,6 @@
-module TypesHttp exposing (getCards)
+module App.TypesHttp exposing (getCards)
 
-import Types exposing (..)
+import App.Types exposing (..)
 import Http
 import Json.Decode exposing (..)
 

@@ -1,8 +1,8 @@
 module Main exposing (..)
 
 import Html exposing (Html)
-import Update exposing (update, init)
-import View exposing (view)
+import App.Update exposing (update, init)
+import App.View exposing (view)
 import App.Subscriptions exposing (subscriptions)
 import RouteUrl
 import App.Router exposing (..)

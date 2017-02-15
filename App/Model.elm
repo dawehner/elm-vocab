@@ -19,6 +19,7 @@ type Msg
 
 type alias Model =
     { activeCard : Int
+    , activeSide : CardSide
     , list : CardList
     , stats : Stats
     , activePage : Page

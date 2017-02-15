@@ -19,7 +19,7 @@ init =
 
 initStatic : Model
 initStatic =
-    (Model -1 (Array.fromList []) Dict.empty MainPage)
+    (Model -1 Front (Array.fromList []) Dict.empty MainPage)
 
 
 updateStats : Int -> Bool -> Stats -> Stats

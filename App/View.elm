@@ -1,6 +1,7 @@
 module App.View exposing (..)
 
 import Html exposing (..)
+import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Array exposing (Array)
 import Dict exposing (Dict)
@@ -13,7 +14,7 @@ viewCard : Card -> Html Msg
 viewCard card =
     div []
         [ h1 [] [ text card.front ]
-        , h2 [] [ text card.back ]
+        , h2 [ class "blur" ] [ text card.back ]
         ]
 
 

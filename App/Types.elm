@@ -12,6 +12,11 @@ type alias Card =
     }
 
 
+type CardSide
+    = Front
+    | Back
+
+
 type alias CardList =
     Array Card
 

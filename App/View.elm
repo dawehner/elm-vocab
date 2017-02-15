@@ -6,6 +6,7 @@ import Array exposing (Array)
 import Dict exposing (Dict)
 import App.Types exposing (..)
 import App.Model exposing (Model, Msg, Msg(..))
+import App.PageType exposing (..)
 
 
 viewCard : Card -> Html Msg
@@ -21,7 +22,16 @@ viewCardList model =
 
 
 view model =
-    viewApp model
+    div []
+        [ viewNavigation
+        , (case model.activePage of
+            MainPage ->
+                viewApp model
+
+            Stats ->
+                viewStats model
+          )
+        ]
 
 
 viewApp model =
@@ -29,7 +39,13 @@ viewApp model =
         [ viewActiveCard model
         , button [ onClick CardKnown ] [ text "✅" ]
         , button [ onClick CardNotKnown ] [ text "❗️" ]
-        , viewStats model
+        ]
+
+
+viewNavigation =
+    ul []
+        [ li [] [ a [ onClick <| SetActivePage MainPage ] [ text "Train" ] ]
+        , li [] [ a [ onClick <| SetActivePage Stats ] [ text "Stats" ] ]
         ]
 
 

@@ -1,6 +1,6 @@
 # Elm vocab
 
-Every feedback is highly welcomeded.
+Every feedback is highly welcomed.
 
 ## Usage
 

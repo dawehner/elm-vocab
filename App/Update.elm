@@ -19,7 +19,12 @@ init =
 
 initStatic : Model
 initStatic =
-    (Model -1 Front (Array.fromList []) Dict.empty MainPage)
+    { activeCard = -1
+    , activeSide = Front
+    , list = Array.fromList []
+    , stats = Dict.empty
+    , activePage = MainPage
+    }
 
 
 updateStats : Int -> Bool -> Stats -> Stats

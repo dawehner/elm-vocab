@@ -14,4 +14,4 @@ cardDecoder =
 
 
 cardListDecoder =
-    (array cardDecoder)
+    (list cardDecoder)

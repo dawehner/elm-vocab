@@ -1,6 +1,5 @@
 module App.Types exposing (..)
 
-import Array exposing (Array)
 import Dict exposing (Dict)
 import App.PageType exposing (Page)
 
@@ -18,11 +17,11 @@ type CardSide
 
 
 type alias CardList =
-    Array Card
+    List Card
 
 
 emptyCardList =
-    Array.fromList []
+    []
 
 
 type alias Stats =

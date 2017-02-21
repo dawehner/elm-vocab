@@ -3,7 +3,6 @@ module App.Update exposing (update, init)
 import Debug
 import Dict exposing (Dict)
 import Random
-import Array exposing (Array)
 import Task exposing (perform)
 import Http
 import App.Types exposing (..)
@@ -74,7 +73,7 @@ update msg model =
         ChooseRandomCard ->
             case model.list of
                 Success cards ->
-                    ( model, Random.generate SetCard (Random.int 0 (Array.length cards)) )
+                    ( model, Random.generate SetCard (Random.int 0 (List.length cards)) )
 
                 --- Is doing nothing otherwise the right approach?
                 _ ->

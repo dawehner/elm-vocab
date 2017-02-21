@@ -3,7 +3,7 @@ module App.View exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Array exposing (Array)
+import List.Extra exposing (getAt)
 import Dict exposing (Dict)
 import App.Types exposing (..)
 import App.Model exposing (Model, Msg, Msg(..))
@@ -20,7 +20,7 @@ viewCard card =
 
 
 viewCardList model =
-    div [] (Array.toList (Array.map viewCard model))
+    div [] (List.map viewCard model)
 
 
 view model =
@@ -65,7 +65,7 @@ viewActiveCard model =
         Success cards ->
             case model.activeCard of
                 Just activeCard ->
-                    viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get activeCard cards))
+                    viewCard (Maybe.withDefault (Card "" "card not found" "") (List.Extra.getAt activeCard cards))
 
                 Nothing ->
                     text "no active card"
@@ -106,7 +106,7 @@ viewStats model =
 
 
 viewStat cards id stat =
-    case (Array.get id cards) of
+    case (List.Extra.getAt id cards) of
         Nothing ->
             tr [] [ Html.text "Card not found" ]
 

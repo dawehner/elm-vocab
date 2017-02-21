@@ -24,7 +24,7 @@ getCards =
 
 initStatic : Model
 initStatic =
-    { activeCard = -1
+    { activeCard = Nothing
     , activeSide = Front
     , list = NotAsked
     , stats = Dict.empty
@@ -53,10 +53,14 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         CardKnown ->
-            (update ChooseRandomCard { model | stats = updateStats model.activeCard True model.stats })
+          case model.activeCard of
+            Just activeCard -> (update ChooseRandomCard { model | stats = updateStats activeCard True model.stats })
+            Nothing -> (model, Cmd.none)
 
         CardNotKnown ->
-            (update ChooseRandomCard { model | stats = updateStats model.activeCard False model.stats })
+          case model.activeCard of
+            Just activeCard -> (update ChooseRandomCard { model | stats = updateStats activeCard False model.stats })
+            Nothing -> (model, Cmd.none)
 
         ChooseRandomCard ->
             case model.list of
@@ -65,7 +69,7 @@ update msg model =
               _ -> ( model, Cmd.none)
 
         SetCard id ->
-            ( { model | activeCard = id }, Cmd.none )
+            ( { model | activeCard = Just id }, Cmd.none )
 
         FetchCards ->
             ( model, getCards )

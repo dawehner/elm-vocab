@@ -57,7 +57,9 @@ viewActiveCard model =
     Loading -> text "Loading"
     Failure err -> text ("Error: " ++ toString err)
     Success cards ->
-        viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard cards))
+        case model.activeCard of
+          Just activeCard -> viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get activeCard cards))
+          Nothing -> text "no active card"
 
 
 viewStats : Model -> Html Msg

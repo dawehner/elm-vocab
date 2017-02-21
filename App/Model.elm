@@ -17,7 +17,7 @@ type Msg
 
 
 type alias Model =
-    { activeCard : Int
+    { activeCard : Maybe Int
     , activeSide : CardSide
     , list : WebData CardList
     , stats : Stats

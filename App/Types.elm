@@ -20,6 +20,8 @@ type CardSide
 type alias CardList =
     Array Card
 
+emptyCardList = Array.fromList []
+
 
 type alias Stats =
     Dict Int Stat

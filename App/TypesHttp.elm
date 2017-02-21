@@ -1,4 +1,4 @@
-module App.TypesHttp exposing (getCards)
+module App.TypesHttp exposing (cardDecoder, cardListDecoder)
 
 import App.Types exposing (..)
 import Http
@@ -16,6 +16,3 @@ cardDecoder =
 cardListDecoder =
     (array cardDecoder)
 
-
-getCards =
-    Http.get "data/cards.js" cardListDecoder

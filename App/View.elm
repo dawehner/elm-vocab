@@ -8,6 +8,7 @@ import Dict exposing (Dict)
 import App.Types exposing (..)
 import App.Model exposing (Model, Msg, Msg(..))
 import App.PageType exposing (..)
+import RemoteData exposing (..)
 
 
 viewCard : Card -> Html Msg
@@ -51,33 +52,39 @@ viewNavigation =
 
 
 viewActiveCard model =
-    if model.activeCard == -1 then
-        (h1 [] [ text "no cards loaded yet" ])
-    else
-        viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard model.list))
+  case model.list of 
+    NotAsked -> text "Not asked yet"
+    Loading -> text "Loading"
+    Failure err -> text ("Error: " ++ toString err)
+    Success cards ->
+        viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get model.activeCard cards))
 
 
 viewStats : Model -> Html Msg
 viewStats model =
-    let
-        viewSingleStat =
-            viewStat model.list
-    in
-        div []
-            [ h2 [] [ text "Stats" ]
-            , table []
-                [ thead []
-                    [ tr []
-                        [ th [] [ text "Card" ]
-                        , th [] [ text "Known" ]
-                        , th [] [ text "Unknown" ]
-                        ]
-                    ]
-                , (tbody []
-                    (Dict.values (Dict.map (viewStat model.list) model.stats))
-                  )
-                ]
-            ]
+    case model.list of
+      NotAsked -> text "Initialising"
+      Loading -> text "Loading"
+      Failure err -> text ("Error: " ++ toString err)
+      Success cards ->
+          let
+              viewSingleStat = viewStat cards
+          in
+              div []
+                  [ h2 [] [ text "Stats" ]
+                  , table []
+                      [ thead []
+                          [ tr []
+                              [ th [] [ text "Card" ]
+                              , th [] [ text "Known" ]
+                              , th [] [ text "Unknown" ]
+                              ]
+                          ]
+                      , (tbody []
+                          (Dict.values (Dict.map (viewStat cards) model.stats))
+                        )
+                      ]
+                  ]
 
 
 viewStat cards id stat =

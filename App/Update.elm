@@ -10,18 +10,23 @@ import App.Types exposing (..)
 import App.TypesHttp exposing (..)
 import App.PageType exposing (..)
 import App.Model exposing (..)
+import RemoteData exposing (..)
 
 
 init : ( Model, Cmd Msg )
 init =
     (update FetchCards initStatic)
 
+getCards =
+    Http.get "data/cards.js" cardListDecoder
+      |> RemoteData.sendRequest
+      |> Cmd.map CardsResponse
 
 initStatic : Model
 initStatic =
     { activeCard = -1
     , activeSide = Front
-    , list = Array.fromList []
+    , list = NotAsked
     , stats = Dict.empty
     , activePage = MainPage
     }
@@ -30,17 +35,10 @@ initStatic =
 updateStats : Int -> Bool -> Stats -> Stats
 updateStats id known stats =
     let
-        id2 =
-            Debug.log "id" id
-
-        oldStats =
-            Debug.log "stats" stats
-
         oldStat =
             Maybe.withDefault (Stat 0 0) (Dict.get id stats)
 
         newStat =
-            Debug.log "newStat"
                 (case known of
                     True ->
                         { oldStat | known = oldStat.known + 1 }
@@ -49,8 +47,7 @@ updateStats id known stats =
                         { oldStat | unknown = oldStat.unknown + 1 }
                 )
     in
-        (Debug.log "updateStats" (Dict.insert id newStat stats))
-
+        Dict.insert id newStat stats
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -62,23 +59,19 @@ update msg model =
             (update ChooseRandomCard { model | stats = updateStats model.activeCard False model.stats })
 
         ChooseRandomCard ->
-            ( model, Random.generate SetCard (Random.int 0 (Array.length model.list)) )
+            case model.list of
+              Success cards -> ( model, Random.generate SetCard (Random.int 0 (Array.length cards)) )
+              --- Is doing nothing otherwise the right approach?
+              _ -> ( model, Cmd.none)
 
         SetCard id ->
             ( { model | activeCard = id }, Cmd.none )
 
         FetchCards ->
-            ( model, Http.send FetchCardsSucceed getCards )
+            ( model, getCards )
 
-        FetchCardsSucceed (Ok vocabs) ->
-            (update ChooseRandomCard ({ model | list = vocabs }))
-
-        FetchCardsSucceed (Err _) ->
-            ( model, Cmd.none )
+        CardsResponse response ->
+            (update ChooseRandomCard ({ model | list = response }))
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
-
-        -- @todo Figure out some debug capablity.
-        FetchFail _ ->
-            ( model, Cmd.none )

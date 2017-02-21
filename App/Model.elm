@@ -3,6 +3,7 @@ module App.Model exposing (Msg(..), Model)
 import Http
 import App.Types exposing (..)
 import App.PageType exposing (Page)
+import RemoteData exposing (WebData)
 
 
 type Msg
@@ -10,17 +11,15 @@ type Msg
     | CardNotKnown
     | ChooseRandomCard
     | SetCard Int
-      -- Fetch vocabs
     | FetchCards
-    | FetchCardsSucceed (Result Http.Error CardList)
-    | FetchFail Http.Error
+    | CardsResponse (WebData CardList)
     | SetActivePage Page
 
 
 type alias Model =
     { activeCard : Int
     , activeSide : CardSide
-    , list : CardList
+    , list : WebData CardList
     , stats : Stats
     , activePage : Page
     }

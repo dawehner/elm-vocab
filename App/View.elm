@@ -52,41 +52,57 @@ viewNavigation =
 
 
 viewActiveCard model =
-  case model.list of 
-    NotAsked -> text "Not asked yet"
-    Loading -> text "Loading"
-    Failure err -> text ("Error: " ++ toString err)
-    Success cards ->
-        case model.activeCard of
-          Just activeCard -> viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get activeCard cards))
-          Nothing -> text "no active card"
+    case model.list of
+        NotAsked ->
+            text "Not asked yet"
+
+        Loading ->
+            text "Loading"
+
+        Failure err ->
+            text ("Error: " ++ toString err)
+
+        Success cards ->
+            case model.activeCard of
+                Just activeCard ->
+                    viewCard (Maybe.withDefault (Card "" "card not found" "") (Array.get activeCard cards))
+
+                Nothing ->
+                    text "no active card"
 
 
 viewStats : Model -> Html Msg
 viewStats model =
     case model.list of
-      NotAsked -> text "Initialising"
-      Loading -> text "Loading"
-      Failure err -> text ("Error: " ++ toString err)
-      Success cards ->
-          let
-              viewSingleStat = viewStat cards
-          in
-              div []
-                  [ h2 [] [ text "Stats" ]
-                  , table []
-                      [ thead []
-                          [ tr []
-                              [ th [] [ text "Card" ]
-                              , th [] [ text "Known" ]
-                              , th [] [ text "Unknown" ]
-                              ]
-                          ]
-                      , (tbody []
-                          (Dict.values (Dict.map (viewStat cards) model.stats))
-                        )
-                      ]
-                  ]
+        NotAsked ->
+            text "Initialising"
+
+        Loading ->
+            text "Loading"
+
+        Failure err ->
+            text ("Error: " ++ toString err)
+
+        Success cards ->
+            let
+                viewSingleStat =
+                    viewStat cards
+            in
+                div []
+                    [ h2 [] [ text "Stats" ]
+                    , table []
+                        [ thead []
+                            [ tr []
+                                [ th [] [ text "Card" ]
+                                , th [] [ text "Known" ]
+                                , th [] [ text "Unknown" ]
+                                ]
+                            ]
+                        , (tbody []
+                            (Dict.values (Dict.map (viewStat cards) model.stats))
+                          )
+                        ]
+                    ]
 
 
 viewStat cards id stat =

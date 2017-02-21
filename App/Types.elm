@@ -20,7 +20,9 @@ type CardSide
 type alias CardList =
     Array Card
 
-emptyCardList = Array.fromList []
+
+emptyCardList =
+    Array.fromList []
 
 
 type alias Stats =

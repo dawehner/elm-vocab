@@ -15,4 +15,3 @@ cardDecoder =
 
 cardListDecoder =
     (array cardDecoder)
-

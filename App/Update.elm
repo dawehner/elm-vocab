@@ -17,10 +17,12 @@ init : ( Model, Cmd Msg )
 init =
     (update FetchCards initStatic)
 
+
 getCards =
     Http.get "data/cards.js" cardListDecoder
-      |> RemoteData.sendRequest
-      |> Cmd.map CardsResponse
+        |> RemoteData.sendRequest
+        |> Cmd.map CardsResponse
+
 
 initStatic : Model
 initStatic =
@@ -39,34 +41,44 @@ updateStats id known stats =
             Maybe.withDefault (Stat 0 0) (Dict.get id stats)
 
         newStat =
-                (case known of
-                    True ->
-                        { oldStat | known = oldStat.known + 1 }
+            (case known of
+                True ->
+                    { oldStat | known = oldStat.known + 1 }
 
-                    False ->
-                        { oldStat | unknown = oldStat.unknown + 1 }
-                )
+                False ->
+                    { oldStat | unknown = oldStat.unknown + 1 }
+            )
     in
         Dict.insert id newStat stats
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         CardKnown ->
-          case model.activeCard of
-            Just activeCard -> (update ChooseRandomCard { model | stats = updateStats activeCard True model.stats })
-            Nothing -> (model, Cmd.none)
+            case model.activeCard of
+                Just activeCard ->
+                    (update ChooseRandomCard { model | stats = updateStats activeCard True model.stats })
+
+                Nothing ->
+                    ( model, Cmd.none )
 
         CardNotKnown ->
-          case model.activeCard of
-            Just activeCard -> (update ChooseRandomCard { model | stats = updateStats activeCard False model.stats })
-            Nothing -> (model, Cmd.none)
+            case model.activeCard of
+                Just activeCard ->
+                    (update ChooseRandomCard { model | stats = updateStats activeCard False model.stats })
+
+                Nothing ->
+                    ( model, Cmd.none )
 
         ChooseRandomCard ->
             case model.list of
-              Success cards -> ( model, Random.generate SetCard (Random.int 0 (Array.length cards)) )
-              --- Is doing nothing otherwise the right approach?
-              _ -> ( model, Cmd.none)
+                Success cards ->
+                    ( model, Random.generate SetCard (Random.int 0 (Array.length cards)) )
+
+                --- Is doing nothing otherwise the right approach?
+                _ ->
+                    ( model, Cmd.none )
 
         SetCard id ->
             ( { model | activeCard = Just id }, Cmd.none )
